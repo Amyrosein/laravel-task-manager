@@ -22,8 +22,8 @@
 
                         <div class="w-full max-w flex lg:flex-row flex-col justify-between">
                             <form class="xl:w-1/3 lg:w-1/2"
-                                action="{{ route('admin.checklist_groups.checklists.update', [$checklistGroup, $checklist]) }}"
-                                method="POST">
+                                  action="{{ route('admin.checklist_groups.checklists.update', [$checklistGroup, $checklist]) }}"
+                                  method="POST">
                                 @csrf
                                 @method('PUT')
 
@@ -78,32 +78,7 @@
                         {{ __('List of Tasks') }}
                         <hr>
                     </div>
-                    <table class="table-fixed">
-                        <tbody>
-                        @foreach ($checklist->tasks as $task)
-                            <tr>
-                                <td class="w-2/3 border px-4 py-2">{{ $task->title }}</td>
-                                <td class="w-1/2 border px-4 py-2">
-
-                                        <a class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
-                                           href="{{ route('admin.checklists.tasks.edit', [$checklist, $task]) }}">
-                                            Edit
-                                        </a>
-                                        <form class="inline-block"
-                                            action="{{ route('admin.checklists.tasks.destroy', [$checklist, $task]) }}"
-                                            method="POST">
-                                            @method('DELETE')
-                                            @csrf
-                                            <x-danger-button
-                                                onclick="return confirm('Are you sure you want to delete this Task?')">
-                                                {{ __('Delete') }}
-                                            </x-danger-button>
-                                        </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                    @livewire('tasks-table', ['checklist' => $checklist])
                 </div>
             </div>
 
@@ -129,7 +104,7 @@
                         @endif
 
                         <!-- create a new task -->
-                        <div class="w-full max-w-xs">
+                        <div class="w-full ">
                             <form
                                 action="{{ route('admin.checklists.tasks.store', [$checklist]) }}"
                                 method="POST">
@@ -148,10 +123,10 @@
                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                 </div>
                                 <div class="mb-4">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="task-textarea">
                                         {{ __('Description') }}
                                     </label>
-                                    <textarea name="description" id="description"
+                                    <textarea name="description" id="task-textarea"
                                               placeholder="{{ __('Task Description') }}" rows="5"
                                               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ old('description') }}</textarea>
                                 </div>
@@ -169,4 +144,13 @@
             <!-- End List of Tasks Section -->
         </div>
     </div>
+
+@section('scripts')
+<script>
+    ClassicEditor
+        .create(document.querySelector('#task-textarea'))
+        .catch( error => console.error(error))
+</script>
+@endsection
 </x-app-layout>
+
