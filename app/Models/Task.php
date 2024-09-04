@@ -13,6 +13,7 @@ class Task extends Model
     protected $fillable = [
         'checklist_id',
         'title',
-        'description'
+        'description',
+        'position',
     ];
 }
