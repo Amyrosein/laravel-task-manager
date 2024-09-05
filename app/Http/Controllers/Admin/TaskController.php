@@ -7,7 +7,7 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Models\Checklist;
 use App\Models\Task;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Contracts\View;
+use Illuminate\Contracts\View\View;
 
 class TaskController extends Controller
 {

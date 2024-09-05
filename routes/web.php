@@ -9,16 +9,8 @@ use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('dashboard');
+    return redirect()->route('welcome');
 })->middleware(['auth']);
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/test', function () {
-    return view('dashboard');
-})->name('test');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -30,9 +22,11 @@ require __DIR__ . '/auth.php';
 
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => IsAdmin::class], function () {
-        Route::resource('pages', PageController::class);
+        Route::resource('pages', PageController::class)
+            ->only(['edit', 'update']);
         Route::resource('checklist_groups', ChecklistGroupController::class);
         Route::resource('checklist_groups.checklists', ChecklistController::class);
         Route::resource('checklists.tasks', TaskController::class);
     });
+    Route::get('welcome', [\App\Http\Controllers\PageController::class, 'welcome'])->name('welcome');
 });
