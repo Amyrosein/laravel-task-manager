@@ -13,4 +13,10 @@ class PageController extends Controller
 
         return view('page', compact('page'));
     }
+    public function consultation()
+    {
+        $page = Page::findOrFail(2); // Consultation Page
+
+        return view('page', compact('page'));
+    }
 }
