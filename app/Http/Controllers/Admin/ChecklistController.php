@@ -23,7 +23,7 @@ class ChecklistController extends Controller
     {
         $checklistGroup->checklists()->create($request->validated());
 
-        return redirect()->route('dashboard');
+        return redirect()->route('welcome');
     }
 
     public function edit(ChecklistGroup $checklistGroup, Checklist $checklist) : View
@@ -36,7 +36,7 @@ class ChecklistController extends Controller
     {
         $checklist->update($request->validated());
 
-        return redirect()->route('dashboard');
+        return redirect()->route('welcome');
     }
 
 
@@ -44,6 +44,6 @@ class ChecklistController extends Controller
     {
         $checklist->delete();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('welcome');
     }
 }

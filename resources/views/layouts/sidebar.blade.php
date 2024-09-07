@@ -1,15 +1,24 @@
-<div class="w-72 bg-gray-800 text-white flex flex-col">
-    <div class="p-4 text-lg font-semibold">Checklister</div>
-    <nav class="mt-2 flex-1">
-        @if(auth()->user()->is_admin)
-            <div class="pl-2.5 text-xs font-semibold py-2 border-b-blue-400 border-b w-1/2">Manage Checklists</div>
-            <ul>
+<aside x-show="isSidebarOpen"
+       x-transition:enter="transition ease-out duration-200"
+       x-transition:enter-start="opacity-0 transform -translate-x-full"
+       x-transition:enter-end="opacity-100 transform translate-x-0"
+       x-transition:leave="transition ease-in duration-200"
+       x-transition:leave-start="opacity-100 transform translate-x-0"
+       x-transition:leave-end="opacity-0 transform -translate-x-full"
+       class="w-72 bg-gray-800 text-white flex flex-col">
+    <div class="px-3 pt-3 text-lg font-semibold text-center">Checklister</div>
+    <nav class="flex-1">
+        <ul>
+            @if(auth()->user()->is_admin)
+                <div class="pl-2.5 text-xs font-semibold py-1.5 border-b-blue-400 border-b w-1/2">Manage Checklists
+                </div>
+
                 @foreach(\App\Models\ChecklistGroup::with('checklists')->get() as $group)
                     <!-- Dropdown Menu -->
                     <li x-data="{ open: {{ request()->is("admin/checklist_groups/{$group->id}*") ? 'true' : 'false' }} }">
                         <div
                             @class([
-                                'flex items-center justify-between px-4 py-2 hover:bg-gray-700',
+                                'flex items-center justify-between px-4 py-1.5 hover:bg-gray-700',
                                 'bg-gray-700' => request()->is("admin/checklist_groups/{$group->id}/edit"),
                                 ])>
                             <!-- "developers" anchor link -->
@@ -56,7 +65,7 @@
                         >
                             @foreach($group->checklists as $checklist)
                                 <li @class([
-                                    'px-4 py-2 hover:bg-gray-700 flex items-center space-x-2 pl-8',
+                                    'px-4 py-1.5 hover:bg-gray-700 flex items-center space-x-2 pl-8',
                                     'bg-gray-700' => request()->is("admin/checklist_groups/{$group->id}/checklists/{$checklist->id}/edit"),
                                     ])>
                                     <div>
@@ -75,7 +84,7 @@
                                 </li>
                             @endforeach
                             <li @class([
-                                    'px-4 py-2 hover:bg-gray-700 flex items-center space-x-2 pl-8',
+                                    'px-4 py-1.5 hover:bg-gray-700 flex items-center space-x-2 pl-8',
                                     'bg-gray-700' => request()->is("admin/checklist_groups/{$group->id}/checklists/create"),
                                     ])
                             >
@@ -95,7 +104,7 @@
                 @endforeach
 
                 <li @class([
-                                    'px-4 py-2 hover:bg-gray-700 flex items-center',
+                                    'px-4 py-1.5 hover:bg-gray-700 flex items-center',
                                     'bg-gray-700' => request()->routeIs('admin.checklist_groups.create'),
                                     ])
                 >
@@ -109,11 +118,13 @@
                     </x-nav-link>
                 </li>
                 <!-- Pages -->
-                <div class="pl-2.5 text-xs font-semibold py-2 border-b-blue-400 border-b w-1/2 mt-4">{{ __('Pages') }}</div>
+                <div
+                    class="pl-2.5 text-xs font-semibold py-1.5.5 border-b-blue-400 border-b w-1/2 mt-4">{{ __('Pages') }}</div>
                 @foreach(\App\Models\Page::all() as $page)
-                    <li class="px-4 py-2 hover:bg-gray-700 flex items-center {{ request()->is("admin/pages/{$page->id}/edit") ? 'bg-gray-700' : '' }}">
+                    <li class="px-4 py-1.5 hover:bg-gray-700 flex items-center {{ request()->is("admin/pages/{$page->id}/edit") ? 'bg-gray-700' : '' }}">
                         <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                 stroke-width="1.5"
                                  stroke="currentColor" class="size-5">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                       d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z"/>
@@ -127,8 +138,9 @@
                 @endforeach
 
                 <!-- Users -->
-                <div class="pl-2.5 text-xs font-semibold py-2 border-b-blue-400 border-b w-1/2 mt-4">{{ __('Manage Data') }}</div>
-                <li class="px-4 py-2 hover:bg-gray-700 flex items-center {{ request()->is("admin/users*") ? 'bg-gray-700' : '' }}">
+                <div
+                    class="pl-2.5 text-xs font-semibold py-1.5 border-b-blue-400 border-b w-1/2 mt-4">{{ __('Manage Data') }}</div>
+                <li class="px-4 py-1.5 hover:bg-gray-700 flex items-center {{ request()->is("admin/users*") ? 'bg-gray-700' : '' }}">
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                              stroke="currentColor" class="size-5">
@@ -141,9 +153,33 @@
                         {{ __('Users') }}
                     </x-nav-link>
                 </li>
-                @endif
-
-
-            </ul>
+            @else
+                <!-- not Admin users -->
+                @foreach(\App\Models\ChecklistGroup::with(['checklists' => function ($query) { $query->whereNull('user_id'); }])->get() as $group)
+                    @if($group->checklists()->count() > 0)
+                        <li class="pl-2.5 text-xs font-semibold py-1.5 border-b-blue-400 border-b w-1/2">{{ $group->name }}</li>
+                        @foreach($group->checklists as $checklist)
+                            <li @class([
+                                    'px-4 py-1.5 hover:bg-gray-700 flex items-center space-x-2 pl-8',
+                                    'bg-gray-700' => request()->is("checklists/{$checklist->id}"),
+                                    ])>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                    </svg>
+                                </div>
+                                <x-nav-link
+                                    :href="route('users.checklists.show', [$checklist])"
+                                    :active='request()->is("checklists/{$checklist->id}")'
+                                >
+                                    {{ ucwords($checklist->name) }}
+                                </x-nav-link>
+                            </li>
+                        @endforeach
+                    @endif
+                @endforeach
+            @endif
+        </ul>
     </nav>
-</div>
+</aside>

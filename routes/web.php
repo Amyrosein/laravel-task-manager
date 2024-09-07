@@ -8,9 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect()->route('welcome');
-})->middleware(['auth']);
+Route::redirect('/', 'welcome');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -34,4 +32,6 @@ Route::group(['middleware' => 'auth'], function () {
         ->name('welcome');
     Route::get('consultation', [\App\Http\Controllers\PageController::class, 'consultation'])
         ->name('consultation');
+    Route::get('checklists/{checklist}', [\App\Http\Controllers\User\ChecklistController::class, 'show'])
+        ->name('users.checklists.show');
 });

@@ -17,26 +17,26 @@
     @livewireStyles
 </head>
 <body class="font-sans antialiased">
-<div class="min-h-screen bg-gray-100 flex">
+<div x-data="{ isSidebarOpen: true }" class="min-h-screen bg-gray-100 flex">
     <!-- Sidebar -->
     @include('layouts.sidebar')
 
     <!-- Main Content -->
-    <div class="flex-1">
+    <div class="flex-1 transition-transform duration-200 ease-in-out">
         <!-- Navigation -->
         @include('layouts.navigation')
 
         <!-- Page Heading -->
         @isset($header)
             <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-9xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     {{ $header }}
                 </div>
             </header>
         @endisset
 
         <!-- Page Content -->
-        <main class="p-8">
+        <main class="p-2">
             {{ $slot }}
         </main>
     </div>

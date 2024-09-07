@@ -13,9 +13,11 @@ class Checklist extends Model
     protected $fillable = [
         'checklist_group_id',
         'name',
+        'user_id',
+        'checklist_id',
     ];
 
-    public function tasks()
+    public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Task::class);
     }
