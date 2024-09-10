@@ -13,6 +13,10 @@ class MenuComposer
             'checklists' => function ($query) {
                 $query->whereNull('user_id');
             },
+            'checklists.tasks' => function ($query) {
+                $query->whereNull('tasks.user_id');
+            },
+            'checklists.user_tasks'
         ])->get();
 
         $view->with('admin_menu', $menu);
@@ -42,14 +46,14 @@ class MenuComposer
                     if (is_null($checklist_updated_at)) {
                         $checklist_updated_at = now()->subYear();
                     }
-                    $checklist->is_new          = ! ($group->is_new) && $checklist->created_at->greaterThan(
+                    $checklist->is_new                = ! ($group->is_new) && $checklist->created_at->greaterThan(
                             $checklist_updated_at
                         );
-                    $checklist->is_updated      = ! ($group->is_new) && ! ($group->is_updated) && ! ($checklist->is_new) && $checklist->updated_at->greaterThan(
+                    $checklist->is_updated            = ! ($group->is_new) && ! ($group->is_updated) && ! ($checklist->is_new) && $checklist->updated_at->greaterThan(
                             $checklist_updated_at
                         );
-                    $checklist->tasks           = 1;
-                    $checklist->completed_tasks = 0;
+                    $checklist->tasks_count           = $checklist->tasks->count();
+                    $checklist->completed_tasks_count = $checklist->user_tasks->count();
                 }
                 $groups[] = $group;
             }

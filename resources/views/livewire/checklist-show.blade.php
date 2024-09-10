@@ -3,12 +3,16 @@
         {{ ucwords($checklist->name) }}
     </div>
     <table class="table-auto w-full">
-        @foreach($checklist->tasks as $task)
+        @foreach($checklist->tasks->whereNull('user_id') as $task)
 
             <!-- Task Title -->
             <tr>
                 <td class="border-b px-2 py-2 w-1/12">
-                    <input type="radio" class="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input wire:click="complete_task({{ $task->id }})"
+                           type="radio"
+                           class="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        @if(in_array($task->id, $completed_tasks)) checked  @endif
+                    >
                 </td>
                 <td wire:click="toggle_task({{ $task->id }})" class="border-b px-4 py-2 w-5/12">{{ $task->title }}</td>
                 <td wire:click="toggle_task({{ $task->id }})" class="border-b px-4 py-2 w-6/12">

@@ -21,4 +21,9 @@ class Checklist extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function user_tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Task::class)->where('user_id', auth()->id());
+    }
 }

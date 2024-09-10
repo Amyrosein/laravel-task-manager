@@ -189,6 +189,13 @@
                                 >
                                     {{ ucwords($checklist->name) }}
                                 </x-nav-link>
+
+                                @livewire('completed-tasks-counter', [
+                                    'completed_tasks_count' => $checklist->completed_tasks_count,
+                                    'tasks_count' => $checklist->tasks_count,
+                                    'checklist_id' => $checklist->id,
+                                ])
+
                                 @if($checklist->is_new)
                                     <span class="bg-blue-700 text-white font-bold py-0.5 px-1.5 rounded text-xs">
                                         New
