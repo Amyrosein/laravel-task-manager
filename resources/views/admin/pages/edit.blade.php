@@ -79,9 +79,90 @@
     </div>
 
     @section('scripts')
-        <script>
-            ClassicEditor
-                .create(document.querySelector('#content-textarea'))
+        <script type="module">
+            import {
+                ClassicEditor,
+                FileRepository,
+                Autoformat,
+                Bold,
+                Italic,
+                Underline,
+                BlockQuote,
+                CloudServices,
+                Essentials,
+                Heading,
+                Image,
+                ImageCaption,
+                ImageResize,
+                ImageStyle,
+                ImageToolbar,
+                ImageUpload,
+                PictureEditing,
+                Indent,
+                IndentBlock,
+                Link,
+                List,
+                MediaEmbed,
+                Mention,
+                Paragraph,
+                PasteFromOffice,
+                Table,
+                TableColumnResize,
+                TableToolbar,
+                TextTransformation,
+            } from 'ckeditor5';
+
+           ClassicEditor
+                .create(document.querySelector('#content-textarea'), {
+                    plugins: [
+                        FileRepository,
+                        Autoformat,
+                        BlockQuote,
+                        Bold,
+                        CloudServices,
+                        Essentials,
+                        Heading,
+                        Image,
+                        ImageCaption,
+                        ImageResize,
+                        ImageStyle,
+                        ImageToolbar,
+                        ImageUpload,
+                        Indent,
+                        IndentBlock,
+                        Italic,
+                        Link,
+                        List,
+                        MediaEmbed,
+                        Mention,
+                        Paragraph,
+                        PasteFromOffice,
+                        PictureEditing,
+                        Table,
+                        TableColumnResize,
+                        TableToolbar,
+                        TextTransformation,
+                        Underline,
+                        SimpleUploadAdapterPlugin,
+                    ],
+                    toolbar: [
+                        'bold',
+                        'italic',
+                        'underline',
+                        '|',
+                        'link',
+                        'uploadImage',
+                        'insertTable',
+                        'blockQuote',
+                        'mediaEmbed',
+                        '|',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'outdent',
+                        'indent',
+                    ],
+                })
                 .catch(error => console.error(error))
         </script>
     @endsection

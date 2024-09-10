@@ -13,7 +13,7 @@
                 <div class="pl-2.5 text-xs font-semibold py-1.5 border-b-blue-400 border-b w-1/2">Manage Checklists
                 </div>
 
-                @foreach(\App\Models\ChecklistGroup::with('checklists')->get() as $group)
+                @foreach($admin_menu as $group)
                     <!-- Dropdown Menu -->
                     <li x-data="{ open: {{ request()->is("admin/checklist_groups/{$group->id}*") ? 'true' : 'false' }} }">
                         <div
@@ -84,7 +84,7 @@
                                 </li>
                             @endforeach
                             <li @class([
-                                    'px-4 py-1.5 hover:bg-gray-700 flex items-center space-x-2 pl-8',
+                                    'px-4 pb-1.5 pt-2.5 hover:bg-gray-700 flex items-center space-x-2 pl-8',
                                     'bg-gray-700' => request()->is("admin/checklist_groups/{$group->id}/checklists/create"),
                                     ])
                             >
@@ -155,12 +155,26 @@
                 </li>
             @else
                 <!-- not Admin users -->
-                @foreach(\App\Models\ChecklistGroup::with(['checklists' => function ($query) { $query->whereNull('user_id'); }])->get() as $group)
+                @foreach($user_menu as $group)
                     @if($group->checklists()->count() > 0)
-                        <li class="pl-2.5 text-xs font-semibold py-1.5 border-b-blue-400 border-b w-1/2">{{ $group->name }}</li>
+                        <li class="px-4 text-xs font-semibold py-1.5 border-b-blue-400 border-b flex justify-between">
+                            <div class="inline-block">
+                                {{ $group->name }}
+                            </div>
+
+                            @if($group->is_new)
+                                <span class="bg-blue-700 text-white font-boldpy-0.5 px-1.5 rounded mr-4" style="font-size: .6rem">
+                                        New
+                                    </span>
+                            @elseif($group->is_updated)
+                                <span class="bg-green-700 text-white font-boldpy-0.5 px-1.5 rounded mr-10" style="font-size: .6rem">
+                                        Updated
+                                    </span>
+                            @endif
+                        </li>
                         @foreach($group->checklists as $checklist)
                             <li @class([
-                                    'px-4 py-1.5 hover:bg-gray-700 flex items-center space-x-2 pl-8',
+                                    'px-4 py-1.5 hover:bg-gray-700 flex items-end space-x-2 pl-8',
                                     'bg-gray-700' => request()->is("checklists/{$checklist->id}"),
                                     ])>
                                 <div>
@@ -175,6 +189,15 @@
                                 >
                                     {{ ucwords($checklist->name) }}
                                 </x-nav-link>
+                                @if($checklist->is_new)
+                                    <span class="bg-blue-700 text-white font-bold py-0.5 px-1.5 rounded text-xs">
+                                        New
+                                    </span>
+                                @elseif($checklist->is_updated)
+                                    <span class="bg-green-700 text-white font-bold py-0.5 px-1.5 rounded text-xs">
+                                        Updated
+                                    </span>
+                                @endif
                             </li>
                         @endforeach
                     @endif

@@ -19,42 +19,42 @@
                                 </ul>
                             </div>
                         @endif
-                            <!-- edit task -->
-                            <div class="w-full max-w-xs">
-                                <form
-                                    action="{{ route('admin.checklists.tasks.update', [$checklist, $task]) }}"
-                                    method="POST">
-                                    @method('PUT')
-                                    @csrf
+                        <!-- edit task -->
+                        <div class="w-full max-w-xs">
+                            <form
+                                action="{{ route('admin.checklists.tasks.update', [$checklist, $task]) }}"
+                                method="POST">
+                                @method('PUT')
+                                @csrf
 
-                                    <div class="mb-4">
-                                        {{ __('Edit Task') }} {{ $task->title }}
-                                        <hr>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
-                                            {{ __('Title') }}
-                                        </label>
-                                        <input value="{{ $task->title }}" name="title" id="title" type="text"
+                                <div class="mb-4">
+                                    {{ __('Edit Task') }} {{ $task->title }}
+                                    <hr>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
+                                        {{ __('Title') }}
+                                    </label>
+                                    <input value="{{ $task->title }}" name="title" id="title" type="text"
 
-                                               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="task-textarea">
-                                            {{ __('Description') }}
-                                        </label>
-                                        <textarea name="description" id="task-textarea"
-                                                  rows="5"
-                                                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ $task->description }}</textarea>
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <x-primary-button>
-                                            {{ __('Save Task') }}
-                                        </x-primary-button>
+                                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="task-textarea">
+                                        {{ __('Description') }}
+                                    </label>
+                                    <textarea name="description" id="task-textarea"
+                                              rows="5"
+                                              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ $task->description }}</textarea>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <x-primary-button>
+                                        {{ __('Save Task') }}
+                                    </x-primary-button>
 
-                                    </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
+                        </div>
                         <!-- end of edit task -->
                     </div>
                 </div>
@@ -62,11 +62,92 @@
         </div>
     </div>
 
-@section('scripts')
-<script>
-    ClassicEditor
-        .create(document.querySelector('#task-textarea'))
-        .catch( error => console.error(error))
-</script>
-@endsection
+    @section('scripts')
+        <script type="module">
+            import {
+                ClassicEditor,
+                FileRepository,
+                Autoformat,
+                Bold,
+                Italic,
+                Underline,
+                BlockQuote,
+                CloudServices,
+                Essentials,
+                Heading,
+                Image,
+                ImageCaption,
+                ImageResize,
+                ImageStyle,
+                ImageToolbar,
+                ImageUpload,
+                PictureEditing,
+                Indent,
+                IndentBlock,
+                Link,
+                List,
+                MediaEmbed,
+                Mention,
+                Paragraph,
+                PasteFromOffice,
+                Table,
+                TableColumnResize,
+                TableToolbar,
+                TextTransformation,
+            } from 'ckeditor5';
+
+            ClassicEditor
+                .create(document.querySelector('#task-textarea'), {
+                    plugins: [
+                        FileRepository,
+                        Autoformat,
+                        BlockQuote,
+                        Bold,
+                        CloudServices,
+                        Essentials,
+                        Heading,
+                        Image,
+                        ImageCaption,
+                        ImageResize,
+                        ImageStyle,
+                        ImageToolbar,
+                        ImageUpload,
+                        Indent,
+                        IndentBlock,
+                        Italic,
+                        Link,
+                        List,
+                        MediaEmbed,
+                        Mention,
+                        Paragraph,
+                        PasteFromOffice,
+                        PictureEditing,
+                        Table,
+                        TableColumnResize,
+                        TableToolbar,
+                        TextTransformation,
+                        Underline,
+                        SimpleUploadAdapterPlugin,
+                    ],
+                    toolbar: [
+                        'bold',
+                        'italic',
+                        'underline',
+                        '|',
+                        'link',
+                        'uploadImage',
+                        'insertTable',
+                        'blockQuote',
+                        'mediaEmbed',
+                        '|',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'outdent',
+                        'indent',
+                    ],
+                })
+                .catch(error => console.error(error))
+        </script>
+    @endsection
 </x-app-layout>
