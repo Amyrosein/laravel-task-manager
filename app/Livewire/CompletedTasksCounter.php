@@ -19,11 +19,11 @@ class CompletedTasksCounter extends Component
     }
 
     #[On('task_complete')]
-    public function updateCounter($checklist_id)
+    public function updateCounter($checklist_id, $count_change = 1)
     {
 
         if ($checklist_id == $this->checklist_id ){
-            $this->completed_tasks_count++;
+            $this->completed_tasks_count += $count_change;
         }
     }
 }

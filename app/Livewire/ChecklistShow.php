@@ -32,6 +32,9 @@ class ChecklistShow extends Component
                 if (is_null($user_task->completed_at)) {
                     $user_task->update(['completed_at' => now()]);
                     $this->dispatch('task_complete', $task->checklist_id);
+                } else {
+                    $user_task->forceDelete();
+                    $this->dispatch('task_complete', $task->checklist_id, -1);
                 }
             } else {
                 $user_task               = $task->replicate();
